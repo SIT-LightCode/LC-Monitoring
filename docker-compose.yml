@@ -2,7 +2,7 @@ version: '3'
 services:
   grafana:
     image: grafana/grafana:latest
-    name: grafana
+    container_name: grafana
     volumes:
       - ./grafana_data:/var/lib/grafana
     environment:
@@ -15,7 +15,7 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
-    name: prometheus
+    container_name: prometheus
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus_data:/prometheus
