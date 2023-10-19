@@ -15,6 +15,7 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
+    name: prometheus
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus_data:/prometheus
