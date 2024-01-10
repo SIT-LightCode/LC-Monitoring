@@ -30,4 +30,4 @@ scrape_configs:
   
   - job_name: 'lightcodedev'
     static_configs:
-    - targets: ['lightcodedev.sit.kmutt.ac.th:80']
+    - targets: ['lightcodedev.sit.kmutt.ac.th:9100']
