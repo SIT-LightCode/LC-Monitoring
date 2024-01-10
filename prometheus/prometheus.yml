@@ -28,6 +28,10 @@ scrape_configs:
     static_configs:
     - targets: ['node-exporter:9100']
   
-  - job_name: 'lightcodedev'
+  - job_name: 'lightcode-dev'
     static_configs:
     - targets: ['lightcodedev.sit.kmutt.ac.th:9100']
+  
+  - job_name: 'lightcode-prod'
+    static_configs:
+    - targets: ['cp23us1.sit.kmutt.ac.th:8080']
