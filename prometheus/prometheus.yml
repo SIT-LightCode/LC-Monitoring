@@ -34,4 +34,4 @@ scrape_configs:
   
   - job_name: 'lightcode-prod'
     static_configs:
-    - targets: ['cp23us1.sit.kmutt.ac.th:9000','lightcodedev.sit.kmutt.ac.th:9100']
+    - targets: ['cp23us1.sit.kmutt.ac.th:9000','cp23us1.sit.kmutt.ac.th:9100']
