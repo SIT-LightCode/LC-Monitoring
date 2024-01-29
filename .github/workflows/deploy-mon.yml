@@ -1,0 +1,52 @@
+name: 'deploy on monitor server'
+on:
+  workflow_dispatch:
+    inputs:
+      restart:
+        description: 'down service before up again'
+        required: true
+        default: 'no'
+        type: choice
+        options:
+          - 'yes'
+          - 'no'
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v2
+    - name: SSH into the Server and Run docker-compose
+      env:
+        MON_PWD: ${{ secrets.MON_PWD }}
+        MON_ADMIN: ${{ secrets.MON_ADMIN }}
+        MON_HOSTNAME: ${{ secrets.MON_HOSTNAME }}
+        TUS_GH_USER: ${{ secrets.TUS_GH_USER }}
+        GHCR_PAT: ${{ secrets.GHCR_PAT }}
+        RESTART: ${{inputs.restart}}
+      run: |
+        yes | sshpass -p $MON_PWD ssh -tt -o StrictHostKeyChecking=no $MON_ADMIN@$MON_HOSTNAME << EOF
+
+          docker login ghcr.io -u $TUS_GH_USER -p $GHCR_PAT
+          
+          if [[ -f "LC-Deployment" ]]
+          then
+            echo "LC-Deployment exists."
+          else
+            yes | git clone git@github.com:SIT-LightCode/LC-Monitoring.git
+          fi          
+
+          cd ~/LC-Deployment
+
+          if [[ $RESTART = "yes" ]]
+          then
+            docker-compose down
+          fi
+          
+          git pull
+          docker-compose -f docker-compose-dev.yml pull
+          docker-compose -f docker-compose-dev.yml up -d
+          echo y | docker system prune -a
+          exit
+        EOF
+    - name: run hostname
+      run: hostname
