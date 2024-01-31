@@ -59,8 +59,25 @@ services:
       - 9200:9200
     volumes:
       - es_data:/usr/share/elasticsearch/data
+  loki:
+    image: grafana/loki:main
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - loki
+
+  promtail:
+    image: grafana/promtail:main
+    volumes:
+      - /var/log:/var/log
+    command: -config.file=/etc/promtail/docker-config.yaml
+    networks:
+      - loki
 networks:
   monitor-net:
     driver: bridge
   elastic:
+    driver: bridge
+  loki:
     driver: bridge
