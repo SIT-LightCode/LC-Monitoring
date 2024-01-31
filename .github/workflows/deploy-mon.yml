@@ -43,8 +43,8 @@ jobs:
           fi
           
           git pull
-          docker-compose -f docker-compose-dev.yml pull
-          docker-compose -f docker-compose-dev.yml up -d
+          docker-compose pull
+          docker-compose up -d
           echo y | docker system prune -a
           exit
         EOF
