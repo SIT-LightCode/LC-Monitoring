@@ -28,14 +28,14 @@ jobs:
 
           docker login ghcr.io -u $TUS_GH_USER -p $GHCR_PAT
           
-          if [[ -f "LC-Deployment" ]]
+          if [[ -f "LC-Monitoring" ]]
           then
-            echo "LC-Deployment exists."
+            echo "LC-Monitoring exists."
           else
             yes | git clone git@github.com:SIT-LightCode/LC-Monitoring.git
           fi          
 
-          cd ~/LC-Deployment
+          cd ~/LC-Monitoring
 
           if [[ $RESTART = "yes" ]]
           then
