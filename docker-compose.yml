@@ -3,6 +3,8 @@ version: '3'
 volumes:
   prometheus_data: {}
   grafana_data: {}
+  es_data:
+    driver: local
 
 services:
   prometheus:
