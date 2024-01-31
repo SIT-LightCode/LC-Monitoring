@@ -51,6 +51,8 @@ services:
       - IPC_LOCK
     environment:
       - discovery.type=single-node
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=secret
     networks:
       - elastic
     ports:
