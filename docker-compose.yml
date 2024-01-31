@@ -6,7 +6,7 @@ volumes:
 
 services:
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.49.1
     container_name: prometheus
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
@@ -20,7 +20,7 @@ services:
       - monitor-net
 
   node-exporter:
-    image: prom/node-exporter:latest
+    image: prom/node-exporter:v1.7.0
     container_name: node-exporter
     ports:
       - '9100:9100'
@@ -28,7 +28,7 @@ services:
       - monitor-net
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:10.3.1
     container_name: grafana
     volumes: 
       - grafana_data:/var/lib/grafana
@@ -39,9 +39,22 @@ services:
       - 3000:3000
     networks:
       - monitor-net
+      - elastic
     depends_on:
       - prometheus
-
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+    networks:
+      - elastic
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
 networks:
   monitor-net:
+    driver: bridge
+  elastic:
     driver: bridge
