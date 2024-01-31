@@ -3,8 +3,6 @@ version: '3'
 volumes:
   prometheus_data: {}
   grafana_data: {}
-  es_data:
-    driver: local
 
 services:
   prometheus:
@@ -51,8 +49,6 @@ services:
       - discovery.type=single-node
     networks:
       - elastic
-    volumes:
-      - esdata1:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
 networks:
