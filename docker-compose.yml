@@ -60,7 +60,7 @@ services:
     volumes:
       - es_data:/usr/share/elasticsearch/data
   logstash:
-    image: docker.elastic.co/logstash/logstash-oss:8.12.0
+    image: docker.elastic.co/logstash/logstash:8.12.0
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
