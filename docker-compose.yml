@@ -69,7 +69,7 @@ services:
     environment:
       LS_JAVA_OPTS: "-Xmx1g -Xms1g"
     networks:
-      - elk
+      - elastic
     depends_on:
       - elasticsearch
 networks:
