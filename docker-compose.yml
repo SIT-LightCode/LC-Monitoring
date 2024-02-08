@@ -42,6 +42,7 @@ services:
     networks:
       - monitor-net
       - elastic
+      - loki
     depends_on:
       - prometheus
   elasticsearch:
@@ -73,8 +74,18 @@ services:
       - elastic
     depends_on:
       - elasticsearch
+  loki:
+    image: grafana/loki:2.9.4
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - loki
 networks:
   monitor-net:
     driver: bridge
   elastic:
+    driver: bridge
+  loki:
     driver: bridge
