@@ -24,6 +24,7 @@ services:
   node-exporter:
     image: prom/node-exporter:v1.7.0
     container_name: node-exporter
+    restart: always
     ports:
       - '9100:9100'
     networks:
@@ -32,6 +33,7 @@ services:
   grafana:
     image: grafana/grafana:10.3.1
     container_name: grafana
+    restart: always
     volumes: 
       - grafana_data:/var/lib/grafana
     environment:
@@ -45,38 +47,11 @@ services:
       - loki
     depends_on:
       - prometheus
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
-    container_name: elasticsearch
-    cap_add:
-      - IPC_LOCK
-    environment:
-      - discovery.type=single-node
-      - ELASTIC_USERNAME=elastic
-      - ELASTIC_PASSWORD=secret
-    networks:
-      - elastic
-    ports:
-      - 9200:9200
-    volumes:
-      - es_data:/usr/share/elasticsearch/data
-  logstash:
-    image: docker.elastic.co/logstash/logstash-oss:8.12.0
-    container_name: logstash
-    volumes:
-      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
-      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
-    ports:
-      - "5000:5000"
-    environment:
-      LS_JAVA_OPTS: "-Xmx1g -Xms1g"
-    networks:
-      - elastic
-    depends_on:
-      - elasticsearch
+
   loki:
     image: grafana/loki:2.9.4
     container_name: loki
+    restart: always
     ports:
       - "3100:3100"
     command: -config.file=/etc/loki/local-config.yaml
